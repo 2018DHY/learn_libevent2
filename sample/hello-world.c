@@ -11,6 +11,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <signal.h>
+#include <stdlib.h>
 #ifndef _WIN32
 #include <netinet/in.h>
 # ifdef _XOPEN_SOURCE_EXTENDED
@@ -24,8 +25,9 @@
 #include <event2/listener.h>
 #include <event2/util.h>
 #include <event2/event.h>
-
-static const char MESSAGE[] = "Hello, World!\n";
+//该文本不能正常显示在浏览器中,需要加响应头,文件编码方式
+static const char Header[]="HTTP/1.1 200 OK\nContent-Type: text/html; charset = utf-8\n\n";
+static const char MESSAGE[] = "HTTP/1.1 200 OK\nContent-Type: text/html; charset = utf-8\n\nHello, World!\n\n";
 
 static const int PORT = 9995;
 
@@ -84,6 +86,18 @@ main(int argc, char **argv)
 	return 0;
 }
 
+int read_all(char* path,char* rt){
+FILE* fl=fopen(path,"r");
+	if(fl !=NULL){
+		printf("file open succese");
+	}
+	rt=malloc(sizeof(char)*2048);
+	char ch=0;
+	while(ch=getc(fl)!=EOF){
+		
+	}
+}
+
 static void
 listener_cb(struct evconnlistener *listener, evutil_socket_t fd,
     struct sockaddr *sa, int socklen, void *user_data)
@@ -100,9 +114,16 @@ listener_cb(struct evconnlistener *listener, evutil_socket_t fd,
 	bufferevent_setcb(bev, NULL, conn_writecb, conn_eventcb, NULL);
 	bufferevent_enable(bev, EV_WRITE);
 	bufferevent_disable(bev, EV_READ);
+	char path[]="index.html";
+	char* ptr=NULL;
+	
+	// char* ptr=malloc()
 
 	bufferevent_write(bev, MESSAGE, strlen(MESSAGE));
+
 }
+
+
 
 static void
 conn_writecb(struct bufferevent *bev, void *user_data)

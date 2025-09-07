@@ -1,5 +1,6 @@
 ### These files should get ignored no matter where they appear.
 /build
+/.github
 # Editors leave these lying around
 \#*\#
 .#*

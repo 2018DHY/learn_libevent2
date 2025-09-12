@@ -46,6 +46,7 @@ set(EVENT__LIBRARY_TYPE DEFAULT CACHE STRING
 
 project(libevent C)
 
+
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/")
 string(REGEX MATCH "SunOS" SOLARIS "${CMAKE_SYSTEM_NAME}")
 
@@ -271,6 +272,7 @@ if (${GNUC})
     set(GCC_V ${CMAKE_C_COMPILER_VERSION})
 
     list(APPEND __FLAGS
+         -std=c99
          -Wall -Wextra -Wno-unused-parameter -Wstrict-aliasing -Wstrict-prototypes
 
          -fno-strict-aliasing # gcc 2.9.5+
@@ -320,6 +322,7 @@ if (${GNUC})
         list(APPEND __FLAGS -Werror)
     endif()
 
+    message("excute my code")
     add_compiler_flags(${__FLAGS})
 endif()
 
@@ -799,6 +802,7 @@ set(HDR_PUBLIC
     ${PROJECT_BINARY_DIR}/include/event2/event-config.h)
 
 set(SRC_CORE
+    d_global.c
     buffer.c
     bufferevent.c
     bufferevent_filter.c
@@ -997,6 +1001,7 @@ endif()
 macro(add_sample_prog ssl name)
     add_executable(${name} ${ARGN})
 
+    target_compile_options(${name} PRIVATE -std=c11)
     target_link_libraries(${name}
                           event_extra
                           event_core

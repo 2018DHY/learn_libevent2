@@ -94,6 +94,7 @@ dg_read_all(char *path, char **rt)
 		}
 		fclose(fl);
 	} else {
+		printf("dg_read_all>>open file failed");
 		(*rt) = NULL;
 		return 0;
 	}
@@ -216,7 +217,7 @@ conn_writecb(struct bufferevent *bev, void *user_data)
 	struct evbuffer *output = bufferevent_get_output(bev);
 	if (evbuffer_get_length(output) == 0) {
 		printf("flushed answer\n");
-		bufferevent_free(bev);
+		// bufferevent_free(bev);
 	}
 }
 

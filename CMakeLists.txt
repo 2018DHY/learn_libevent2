@@ -272,7 +272,7 @@ if (${GNUC})
     set(GCC_V ${CMAKE_C_COMPILER_VERSION})
 
     list(APPEND __FLAGS
-         -std=c99
+         -std=c11
          -Wall -Wextra -Wno-unused-parameter -Wstrict-aliasing -Wstrict-prototypes
 
          -fno-strict-aliasing # gcc 2.9.5+

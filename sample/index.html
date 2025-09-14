@@ -1,12 +1,197 @@
+
 <!DOCTYPE html>
-
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>诗歌精选集</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .poem-card {
+            transition: all 0.3s ease;
+        }
+        .poem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
-<html>
+<body class="bg-gray-50">
+    <header class="bg-gradient-to-r from-purple-600 to-blue-500 text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold text-center">诗歌精选集</h1>
+            <p class="text-center mt-2">穿越时空的文字之美</p>
+        </div>
+    </header>
 
-<body>
-    <h1>Hello_world</h1>
+    <nav class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center space-x-6 py-4">
+                <button class="category-btn px-4 py-2 rounded-full bg-blue-100 text-blue-700 font-medium hover:bg-blue-200 transition" data-category="all">全部</button>
+                <button class="category-btn px-4 py-2 rounded-full hover:bg-gray-100 transition" data-category="classical">古典诗歌</button>
+                <button class="category-btn px-4 py-2 rounded-full hover:bg-gray-100 transition" data-category="modern">现代诗歌</button>
+                <button class="category-btn px-4 py-2 rounded-full hover:bg-gray-100 transition" data-category="foreign">外国诗歌</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="poem-container">
+            <!-- 诗歌卡片将通过JavaScript动态加载 -->
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>© 2025 诗歌精选集 - 传承文字之美</p>
+            <p class="mt-2 text-gray-400">本网站收集整理各类经典诗歌作品</p>
+        </div>
+    </footer>
+
+    <script>
+        const poems = [
+            {
+                id: 1,
+                title: "静夜思",
+                author: "李白",
+                content: "床前明月光，疑是地上霜。\n举头望明月，低头思故乡。",
+                category: "classical",
+                dynasty: "唐代"
+            },
+            {
+                id: 2,
+                title: "春望",
+                author: "杜甫",
+                content: "国破山河在，城春草木深。\n感时花溅泪，恨别鸟惊心。\n烽火连三月，家书抵万金。\n白头搔更短，浑欲不胜簪。",
+                category: "classical",
+                dynasty: "唐代"
+            },
+            {
+                id: 3,
+                title: "再别康桥",
+                author: "徐志摩",
+                content: "轻轻的我走了，\n正如我轻轻的来；\n我轻轻的招手，\n作别西天的云彩。",
+                category: "modern",
+                dynasty: "现代"
+            },
+            {
+                id: 4,
+                title: "面朝大海，春暖花开",
+                author: "海子",
+                content: "从明天起，做一个幸福的人\n喂马，劈柴，周游世界\n从明天起，关心粮食和蔬菜\n我有一所房子，面朝大海，春暖花开",
+                category: "modern",
+                dynasty: "现代"
+            },
+            {
+                id: 5,
+                title: "假如生活欺骗了你",
+                author: "普希金",
+                content: "假如生活欺骗了你，\n不要悲伤，不要心急！\n忧郁的日子里须要镇静：\n相信吧，快乐的日子将会来临！",
+                category: "foreign",
+                dynasty: "俄罗斯"
+            },
+            {
+                id: 6,
+                title: "飞鸟集·第1首",
+                author: "泰戈尔",
+                content: "夏天的飞鸟，\n飞到我的窗前唱歌，\n又飞去了。\n秋天的黄叶，\n它们没有什么可唱，\n只叹息一声，\n飞落在那里。",
+                category: "foreign",
+                dynasty: "印度"
+            },
+            {
+                id: 7,
+                title: "登鹳雀楼",
+                author: "王之涣",
+                content: "白日依山尽，\n黄河入海流。\n欲穷千里目，\n更上一层楼。",
+                category: "classical",
+                dynasty: "唐代"
+            },
+            {
+                id: 8,
+                title: "雨巷",
+                author: "戴望舒",
+                content: "撑着油纸伞，独自\n彷徨在悠长、悠长\n又寂寥的雨巷，\n我希望逢着\n一个丁香一样地\n结着愁怨的姑娘。",
+                category: "modern",
+                dynasty: "现代"
+            },
+            {
+                id: 9,
+                title: "当你老了",
+                author: "叶芝",
+                content: "当你老了，头发白了，睡意昏沉，\n炉火旁打盹，请取下这部诗歌，\n慢慢读，回想你过去眼神的柔和，\n回想它们昔日浓重的阴影；",
+                category: "foreign",
+                dynasty: "爱尔兰"
+            }
+        ];
+
+        function renderPoems(category = 'all') {
+            const container = document.getElementById('poem-container');
+            container.innerHTML = '';
+            
+            const filteredPoems = category === 'all' 
+                ? poems 
+                : poems.filter(poem => poem.category === category);
+            
+            filteredPoems.forEach(poem => {
+                const poemCard = document.createElement('div');
+                poemCard.className = 'poem-card bg-white rounded-lg shadow-md overflow-hidden fade-in';
+                poemCard.innerHTML = `
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-bold text-gray-800">${poem.title}</h3>
+                            <span class="text-xs px-2 py-1 rounded-full ${getCategoryColor(poem.category)}">${getCategoryName(poem.category)}</span>
+                        </div>
+                        <p class="text-gray-600 mt-1">${poem.author} · ${poem.dynasty}</p>
+                        <div class="mt-4 text-gray-700 whitespace-pre-line leading-relaxed">${poem.content}</div>
+                    </div>
+                `;
+                container.appendChild(poemCard);
+            });
+        }
+
+        function getCategoryColor(category) {
+            switch(category) {
+                case 'classical': return 'bg-yellow-100 text-yellow-800';
+                case 'modern': return 'bg-green-100 text-green-800';
+                case 'foreign': return 'bg-purple-100 text-purple-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        function getCategoryName(category) {
+            switch(category) {
+                case 'classical': return '古典诗歌';
+                case 'modern': return '现代诗歌';
+                case 'foreign': return '外国诗歌';
+                default: return '其他';
+            }
+        }
+
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => {
+                    b.classList.remove('bg-blue-100', 'text-blue-700');
+                    b.classList.add('hover:bg-gray-100');
+                });
+                
+                this.classList.add('bg-blue-100', 'text-blue-700');
+                this.classList.remove('hover:bg-gray-100');
+                
+                const category = this.dataset.category;
+                renderPoems(category);
+            });
+        });
+
+        // 初始加载
+        document.querySelector('[data-category="all"]').click();
+    </script>
 </body>
-
 </html>

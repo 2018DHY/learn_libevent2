@@ -2,6 +2,7 @@
 /build
 /.github
 /.vscode
+/.idea
 # Editors leave these lying around
 \#*\#
 .#*

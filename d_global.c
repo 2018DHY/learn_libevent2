@@ -4,10 +4,11 @@
 #include <stdlib.h>
 
 
-int
-dg_append(char **rt, char *src1, int c1_len, char *src2, int c2_len,bool free)
+int64_t
+dg_append(
+	char **rt, char *src1, int64_t c1_len, char *src2, int64_t c2_len, bool free)
 {
-	int sum = c1_len + c2_len;
+	int64_t sum = c1_len + c2_len;
 	if (src1 != NULL && src2 != NULL) {
 		(*rt) = (char *)malloc(sizeof(char) * sum);
 		if (rt == NULL) {
@@ -31,16 +32,18 @@ dg_append(char **rt, char *src1, int c1_len, char *src2, int c2_len,bool free)
 void
 dg_append_free(char *ptr)
 {
-	free(ptr);
+	if (ptr != NULL) {
+		free(ptr);
+	}
 }
 
-int
+int64_t
 dg_read_all(char *path, char **rt)
 {
 	int unit = 4096;
 	int count_unit = 1;
-	int size_rt = 0;
-	int cur_capacit = unit * count_unit;
+	int64_t size_rt = 0;
+	int64_t cur_capacit = unit * count_unit;
 	char *check = NULL;
 	FILE *fl = fopen(path, "r");
 
@@ -64,7 +67,7 @@ dg_read_all(char *path, char **rt)
 						}
 						return 0;
 					}
-					(*rt)=check;
+					(*rt) = check;
 					(*rt)[size_rt] = ch;
 				}
 				size_rt++;
@@ -85,5 +88,39 @@ dg_read_all(char *path, char **rt)
 void
 dg_read_all_free(char *ptr)
 {
-	free(ptr);
+	if (ptr != NULL) {
+		free(ptr);
+	}
+}
+
+
+int64_t
+f_read_all(const char *const path, char **rt)
+{
+	FILE *fd = fopen(path, "rb");
+	if (fd == NULL)
+		return 0;
+	fseek(fd, 0, SEEK_END);
+	int64_t len = ftello(fd);
+	fseek(fd, 0, SEEK_SET);
+	*rt = (char *)malloc(sizeof(char) * len);
+	if (*rt == NULL) {
+		printf("f_read_all>>bad malloc");
+		return 0;
+	}
+	if (fread(*rt, 1, len, fd) <= 0) {
+		fclose(fd);
+		*rt = NULL;
+		return 0;
+	}
+	fclose(fd);
+	return len;
+}
+
+void
+f_read_all_free(char *ptr)
+{
+	if (ptr != NULL) {
+		free(ptr);
+	}
 }

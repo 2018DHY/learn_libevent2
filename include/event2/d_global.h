@@ -5,17 +5,21 @@
 #include <stddef.h>
 #include <stdint.h>
 
-struct buf_ary
+
+
+struct byt_buf_ary
 {
     int64_t size;
     int64_t capacity;
     char* dt;
 };
 
+typedef struct byt_buf_ary bba;
+
 EVENT2_EXPORT_SYMBOL
-void scale_buf(struct buf_ary** buf); 
+void scale_buf(bba** buf); 
 EVENT2_EXPORT_SYMBOL
-void buf_ary_free(struct buf_ary** buf);
+void buf_ary_free(bba** buf);
 
 /**
  * 返回两个字符串拼接后的大小,若为0则失败
